@@ -1,0 +1,256 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1a2332;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(100, 120, 150, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(80, 100, 130, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(90, 110, 140, 0.2) 0%, transparent 70%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    padding: 50px 60px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Ícone da Bússola */
+.icon-circle {
+    width: 100px;
+    height: 100px;
+    background-color: #4A90E2;
+    border-radius: 50%;
+    margin: 0 auto 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-circle svg {
+    width: 50px;
+    height: 50px;
+}
+
+/* Título e Subtítulo */
+.title {
+    font-size: 32px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 35px;
+}
+
+/* Mensagens */
+.error-message {
+    background-color: #fee;
+    color: #c33;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.info-message {
+    background-color: #e8f4f8;
+    color: #31708f;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+/* Formulário */
+form {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 16px 18px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    font-size: 16px;
+    color: #ffffff;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(74, 144, 226, 0.5);
+}
+
+.form-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Botão de Login */
+.btn-login {
+    width: 100%;
+    padding: 16px;
+    background-color: #5B9FFF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+    background-color: #4A8FEE;
+    box-shadow: 0 4px 8px rgba(91, 159, 255, 0.3);
+}
+
+.btn-login:active {
+    transform: translateY(1px);
+}
+
+/* Links Inferiores */
+.footer-links {
+    margin-top: 25px;
+}
+
+.link-forgot {
+    display: block;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 12px;
+    transition: color 0.3s ease;
+}
+
+.link-forgot:hover {
+    color: #4A90E2;
+}
+
+.link-signup {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+    margin-top: 8px;
+}
+
+.link-signup-blue {
+    color: #5B9FFF;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.link-signup-blue::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: #5B9FFF;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.link-signup-blue:hover::after {
+    transform: scaleX(1);
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 30px 25px;
+    }
+    
+    .title {
+        font-size: 24px;
+    }
+    
+    .icon-circle {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+/* Estilos adicionais para cadastro */
+.checkbox-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #5B9FFF;
+}
+
+.checkbox-label span {
+    flex: 1;
+}
+
+.link-terms {
+    color: #5B9FFF;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.link-terms:hover {
+    color: #4A8FEE;
+    text-decoration: underline;
+}
+
+input[type="date"].form-input {
+    color-scheme: dark;
+}
+
+input[type="date"].form-input::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+

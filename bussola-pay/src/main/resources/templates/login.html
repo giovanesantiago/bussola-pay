@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/styleLogin.css">
+  <title>Bússola Pay - Login</title>
+</head>
+<body>
+<main>
+  <div class="login-container">
+    <!-- Ícone da Bússola -->
+    <div class="icon-circle">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="white"></polygon>
+      </svg>
+    </div>
+    
+    <!-- Título e Subtítulo -->
+    <h1 class="title">Bússola Pay</h1>
+    <p class="subtitle">Onde você descobre a direção de suas contas.</p>
+    
+    <!-- Mensagens de Erro -->
+    <div th:if="${param.error}" class="error-message">
+      <p>Nome de usuário e senha inválidos.</p>
+    </div>
+    <div th:if="${param.logout}" class="info-message">
+      <p>Você foi desconectado.</p>
+    </div>
+    
+    <!-- Formulário de Login -->
+    <form th:action="@{/login}" method="post">
+      <div class="form-group">
+        <input type="text" class="form-input" id="user" name="username" placeholder="gio404" required>
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-input" id="password" name="password" placeholder="Senha" required>
+      </div>
+      <button type="submit" class="btn-login">Entrar</button>
+    </form>
+    
+    <!-- Links Inferiores -->
+    <div class="footer-links">
+      <a href="#" class="link-forgot">Esqueci minha senha</a>
+      <p class="link-signup">Ainda não tem conta? <a th:href="@{/mv/cadastrar/cliente}" class="link-signup-blue">Cadastre-se</a></p>
+    </div>
+  </div>
+</main>
+</body>
+</html>
