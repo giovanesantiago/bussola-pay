@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/styleLogin.css">
+  <title>Bússola Pay - Cadastro</title>
+</head>
+<!--/*@thymesVar id="cliente" type="br.com.bussolapay.model.ClienteDTO"*/-->
+<body>
+<main>
+  <div class="login-container">
+    <!-- Ícone da Bússola -->
+    <div class="icon-circle">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="white"></polygon>
+      </svg>
+    </div>
+    
+    <!-- Título -->
+    <h1 class="title">Crie sua conta</h1>
+    <p class="subtitle">Junte-se ao Bússola Pay e organize suas finanças.</p>
+    
+    <!-- Mensagens de Erro -->
+    <div th:if="${param.error}" class="error-message">
+      <p>Erro ao criar conta. Verifique os dados informados.</p>
+    </div>
+    <div th:if="${param.success}" class="info-message">
+      <p>Conta criada com sucesso!</p>
+    </div>
+    
+    <!-- Box de Erros do Backend -->
+    <div th:if="${erros != null and !erros.isEmpty()}" class="error-box">
+      <div class="error-box-header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <span>Corrija os seguintes erros:</span>
+      </div>
+      <ul class="error-list">
+        <li th:each="erro : ${erros}" th:text="${erro}"></li>
+      </ul>
+    </div>
+    
+    <!-- Formulário de Cadastro -->
+    <form th:action="@{/cliente}" method="post">
+      <div class="form-group">
+        <input type="text" th:field="${cliente.nome}" class="form-input" id="nomeCompleto" name="nomeCompleto" placeholder="Nome Completo" required>
+        <span class="error-span" id="error-nomeCompleto"></span>
+      </div>
+      
+      <div class="form-group">
+        <input type="date" th:field="${cliente.dataNascimento}" class="form-input" id="dataNascimento" name="dataNascimento" placeholder="Data de Nascimento" required>
+        <span class="error-span" id="error-dataNascimento"></span>
+      </div>
+      
+      <div class="form-group">
+        <input type="email" th:field="${cliente.email}" class="form-input" id="email" name="email" placeholder="E-mail" required>
+        <span class="error-span" id="error-email"></span>
+      </div>
+      
+      <div class="form-group">
+        <input type="text" th:field="${cliente.cpf}" class="form-input" id="cpf" name="cpf" placeholder="CPF" maxlength="14" required>
+        <span class="error-span" id="error-cpf"></span>
+      </div>
+      
+      <div class="form-group">
+        <input type="password" th:field="${cliente.senha}" class="form-input" id="senha" name="senha" placeholder="Senha" required>
+        <span class="error-span" id="error-senha"></span>
+      </div>
+      
+      <div class="form-group">
+        <input type="password" th:field="${cliente.confirmarSenha}" class="form-input" id="confirmarSenha" name="confirmarSenha" placeholder="Confirmar Senha" required>
+        <span class="error-span" id="error-confirmarSenha"></span>
+      </div>
+      
+      <div class="form-group checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox" id="termos" name="termos" required>
+          <span>Li e aceito os <a href="#" class="link-terms">Termos de Uso</a></span>
+        </label>
+        <span class="error-span" id="error-termos"></span>
+      </div>
+      
+      <button type="submit" class="btn-login">Continuar</button>
+    </form>
+    
+    <!-- Links Inferiores -->
+    <div class="footer-links">
+      <p class="link-signup">Já tem uma conta? <a th:href="@{/login}" class="link-signup-blue">Fazer login</a></p>
+    </div>
+  </div>
+</main>
+
+<script src="/js/validacao-cadastro.js"></script>
+</body>
+</html>

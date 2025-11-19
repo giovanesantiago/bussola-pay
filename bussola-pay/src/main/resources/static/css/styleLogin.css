@@ -87,6 +87,69 @@ main {
     font-size: 14px;
 }
 
+/* Box de Erros do Backend */
+.error-box {
+    background: rgba(255, 107, 107, 0.15);
+    border: 1px solid rgba(255, 107, 107, 0.4);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.error-box-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ff6b6b;
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.error-box-header svg {
+    flex-shrink: 0;
+}
+
+.error-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.error-list li {
+    color: #ffffff;
+    font-size: 14px;
+    padding: 8px 0;
+    padding-left: 24px;
+    position: relative;
+    line-height: 1.4;
+}
+
+.error-list li:before {
+    content: "•";
+    position: absolute;
+    left: 10px;
+    color: #ff6b6b;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.error-list li:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 107, 107, 0.2);
+}
+
 /* Formulário */
 form {
     width: 100%;
@@ -251,6 +314,22 @@ input[type="date"].form-input {
 input[type="date"].form-input::-webkit-calendar-picker-indicator {
     filter: invert(1);
     cursor: pointer;
+}
+
+/* Estilos para mensagens de erro inline */
+.error-span {
+    display: none;
+    color: #ff6b6b;
+    font-size: 13px;
+    margin-top: 6px;
+    margin-left: 2px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.form-input.input-error {
+    border-color: #ff6b6b !important;
+    background-color: rgba(255, 107, 107, 0.1) !important;
 }
 
 
