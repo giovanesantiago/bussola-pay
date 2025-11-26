@@ -12,11 +12,10 @@ public class ModeViewController {
 
     @GetMapping("/cadastrar/cliente")
     public ModelAndView viewCadastro() {
-        ModelAndView mv = new ModelAndView("/cadastro");
+        ModelAndView mv = new ModelAndView("cadastro");
         mv.addObject("cliente", new ClienteDTO());
         return mv;
     }
 
-/*TODO: Criar pdf com Termos de Uso*/
 }
 
