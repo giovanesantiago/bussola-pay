@@ -64,7 +64,6 @@ public abstract class PersistentEntityModel implements Comparator<Object>, Seria
 
     @Override
     public int compare(Object o1, Object o2) {
-        // TODO Auto-generated method stub
         return 0;
     }
 

@@ -1,0 +1,412 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1a2332;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(100, 120, 150, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(80, 100, 130, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(90, 110, 140, 0.2) 0%, transparent 70%);
+    min-height: 100vh;
+    height: 100%;
+    width: 100%;
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+/* Header */
+.header {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-container {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    flex: 1;
+}
+
+.user-greeting {
+    display: flex;
+    align-items: center;
+}
+
+.greeting-text {
+    font-size: 20px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.greeting-text span {
+    font-weight: 600;
+    color: #5B9FFF;
+}
+
+.header-right {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.icon-button {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    color: #ffffff;
+}
+
+.icon-button:hover {
+    background: rgba(91, 159, 255, 0.2);
+    border-color: rgba(91, 159, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.icon-button:active {
+    transform: translateY(0);
+}
+
+.notification-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #ff6b6b;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    text-align: center;
+    border: 2px solid #1a2332;
+}
+
+/* Main Container */
+main {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    padding: 40px 40px 100px;
+}
+
+.dashboard-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.section-subtitle {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Days Grid */
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    margin-top: 30px;
+    width: 100%;
+}
+
+/* Day Card */
+.day-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.day-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #5B9FFF, #4A90E2);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.day-card:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(91, 159, 255, 0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.day-card:hover::before {
+    opacity: 1;
+}
+
+/* Day Header */
+.day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.day-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.day-label.highlight {
+    color: #5B9FFF;
+    font-size: 15px;
+}
+
+.day-date {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+}
+
+/* Day Body */
+.day-body {
+    margin-bottom: 20px;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.day-amount {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.day-amount .currency {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+.day-amount .value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+}
+
+.day-amount.no-debts .value {
+    font-size: 20px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.amount-label {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+}
+
+/* Day Footer */
+.day-footer {
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.debt-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
+
+.debt-indicator svg {
+    flex-shrink: 0;
+    opacity: 0.8;
+}
+
+.debt-indicator.success {
+    color: #4ade80;
+}
+
+.debt-indicator.success svg {
+    color: #4ade80;
+}
+
+/* Floating Action Button */
+.fab {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #5B9FFF, #4A90E2);
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 8px 24px rgba(91, 159, 255, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 50;
+    color: white;
+}
+
+.fab:hover {
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 12px 32px rgba(91, 159, 255, 0.5);
+}
+
+.fab:active {
+    transform: scale(1.05) rotate(90deg);
+}
+
+.fab svg {
+    transition: transform 0.3s ease;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .header-container {
+        padding: 0 16px;
+    }
+
+    .greeting-text {
+        font-size: 18px;
+    }
+
+    main {
+        padding: 24px 16px 100px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .section-subtitle {
+        font-size: 14px;
+    }
+
+    .days-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .day-card {
+        padding: 20px;
+    }
+
+    .day-amount .value {
+        font-size: 28px;
+    }
+
+    .fab {
+        width: 56px;
+        height: 56px;
+        bottom: 24px;
+        right: 24px;
+    }
+
+    .fab svg {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .greeting-text {
+        font-size: 16px;
+    }
+
+    .icon-button {
+        width: 40px;
+        height: 40px;
+    }
+
+    .icon-button svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .section-header {
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        font-size: 22px;
+    }
+
+    .day-amount .value {
+        font-size: 24px;
+    }
+
+    .day-amount .currency {
+        font-size: 16px;
+    }
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.day-card {
+    animation: fadeIn 0.4s ease-out;
+}
+
+.day-card:nth-child(1) { animation-delay: 0.1s; }
+.day-card:nth-child(2) { animation-delay: 0.2s; }
+.day-card:nth-child(3) { animation-delay: 0.3s; }
+.day-card:nth-child(4) { animation-delay: 0.4s; }
+.day-card:nth-child(5) { animation-delay: 0.5s; }

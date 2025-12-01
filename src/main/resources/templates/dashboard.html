@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/styleDashboard.css">
+  <title>Bússola Pay - Dashboard</title>
+</head>
+<body>
+<header class="header">
+  <div class="header-container">
+    <div class="header-left">
+      <div class="user-greeting">
+        <span class="greeting-text">Olá, <span th:text="${nomeUsuario}">Usuário</span></span>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="icon-button" id="btnNotificacoes" title="Notificações">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <span class="notification-badge" th:if="${notificacoes > 0}" th:text="${notificacoes}">3</span>
+      </button>
+      <button class="icon-button" id="btnMenu" title="Menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="1"></circle>
+          <circle cx="12" cy="5" r="1"></circle>
+          <circle cx="12" cy="19" r="1"></circle>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="dashboard-container">
+    <div class="section-header">
+      <h2 class="section-title">Próximos 5 Dias</h2>
+      <p class="section-subtitle">Mantenha suas finanças em dia</p>
+    </div>
+
+    <div class="days-grid">
+      <!-- Card Dia 1 - Hoje -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-label highlight">HOJE</span>
+          <span class="day-date">04/11</span>
+        </div>
+        <div class="day-body">
+          <div class="day-amount">
+            <span class="currency">R$</span>
+            <span class="value">1.500,00</span>
+          </div>
+          <span class="amount-label">a pagar</span>
+        </div>
+        <div class="day-footer">
+          <div class="debt-indicator">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>3 contas vencem hoje</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Dia 2 - Amanhã -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-label">AMANHÃ</span>
+          <span class="day-date">05/11</span>
+        </div>
+        <div class="day-body">
+          <div class="day-amount">
+            <span class="currency">R$</span>
+            <span class="value">850,00</span>
+          </div>
+          <span class="amount-label">a pagar</span>
+        </div>
+        <div class="day-footer">
+          <div class="debt-indicator">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>2 contas vencem</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Dia 3 -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-label">QUA</span>
+          <span class="day-date">06/11</span>
+        </div>
+        <div class="day-body">
+          <div class="day-amount">
+            <span class="currency">R$</span>
+            <span class="value">320,00</span>
+          </div>
+          <span class="amount-label">a pagar</span>
+        </div>
+        <div class="day-footer">
+          <div class="debt-indicator">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>1 conta vence</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Dia 4 -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-label">QUI</span>
+          <span class="day-date">07/11</span>
+        </div>
+        <div class="day-body">
+          <div class="day-amount no-debts">
+            <span class="value">Sem contas</span>
+          </div>
+        </div>
+        <div class="day-footer">
+          <div class="debt-indicator success">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Tudo certo!</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Dia 5 -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-label">SEX</span>
+          <span class="day-date">08/11</span>
+        </div>
+        <div class="day-body">
+          <div class="day-amount">
+            <span class="currency">R$</span>
+            <span class="value">2.100,00</span>
+          </div>
+          <span class="amount-label">a pagar</span>
+        </div>
+        <div class="day-footer">
+          <div class="debt-indicator">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>4 contas vencem</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botão Flutuante de Ação -->
+  <button class="fab" id="btnAddDivida" title="Adicionar nova dívida">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+    </svg>
+  </button>
+</main>
+
+<script src="/js/dashboard.js"></script>
+</body>
+</html>
