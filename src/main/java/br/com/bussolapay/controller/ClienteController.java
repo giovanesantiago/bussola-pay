@@ -1,8 +1,7 @@
 package br.com.bussolapay.controller;
 
 import br.com.bussolapay.config.exceptions.UsuarioException;
-import br.com.bussolapay.model.ClienteDTO;
-import br.com.bussolapay.repository.UsuarioRepository;
+import br.com.bussolapay.model.ClienteCreate;
 import br.com.bussolapay.service.ClienteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,25 +25,25 @@ public class ClienteController {
     private final ClienteService clienteService;
 
     @PostMapping() @SuppressWarnings(value = "XSSVulnerability")
-    public ModelAndView newCliente(@ModelAttribute("cliente") @Valid ClienteDTO clienteDTO, BindingResult result){
+    public ModelAndView newCliente(@ModelAttribute("cliente") @Valid ClienteCreate clienteCreate, BindingResult result){
         ModelAndView mv = new ModelAndView("/login");
 
         if(result.hasErrors()){
             List<String> erros =
-                    Optional.ofNullable(result.getAllErrors()).orElse(Collections.emptyList())
+                    Optional.of(result.getAllErrors()).orElse(Collections.emptyList())
                     .stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
 
             mv.setViewName("/cadastro");
-            mv.addObject("cliente", clienteDTO);
+            mv.addObject("cliente", clienteCreate);
             mv.addObject("erros", erros);
         }
 
         try {
-            clienteService.save(clienteDTO);
+            clienteService.save(clienteCreate);
         } catch (UsuarioException usuarioException){
             mv.setViewName("/cadastro");
-            mv.addObject("cliente", clienteDTO);
+            mv.addObject("cliente", clienteCreate);
             mv.addObject("erros", List.of(usuarioException.getMessage()));
         }
 

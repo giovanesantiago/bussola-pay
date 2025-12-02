@@ -1,5 +1,6 @@
 package br.com.bussolapay.model;
 
+import br.com.bussolapay.common.Convercoes;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -30,10 +31,14 @@ public class Cliente extends PersistentEntityModel {
     @OneToOne @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    public Cliente(ClienteDTO clienteDTO, Usuario usuario) {
-        this.nome = clienteDTO.getNome();
-        this.dataNascimento = LocalDate.parse(clienteDTO.getDataNascimento());
-        this.cpf = clienteDTO.getCpf();
+    public Cliente(ClienteCreate clienteCreate, Usuario usuario) {
+        this.nome = clienteCreate.getNome();
+        this.dataNascimento = LocalDate.parse(clienteCreate.getDataNascimento());
+        this.cpf = clienteCreate.getCpf();
         this.usuario = usuario;
+    }
+
+    public String getCpfFormatado() {
+        return Convercoes.formatCPF(cpf);
     }
 }
