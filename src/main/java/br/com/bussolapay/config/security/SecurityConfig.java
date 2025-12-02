@@ -24,7 +24,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/mv/cadastrar/cliente").permitAll()
+                        .requestMatchers("/cadastrar/cliente").permitAll()
+                        .requestMatchers("/adicionar/divida").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.POST, "/cliente").permitAll()
                         .requestMatchers("/css/**").permitAll()
                         .requestMatchers("/js/**").permitAll()

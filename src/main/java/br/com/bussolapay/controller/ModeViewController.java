@@ -35,6 +35,13 @@ public class ModeViewController {
         return mv;
     }
 
+    @GetMapping("/adicionar/divida")
+    public ModelAndView viewCadastroDivida() {
+        ModelAndView mv = new ModelAndView("adicionar-divida");
+
+        return mv;
+    }
+
 
 
 }
