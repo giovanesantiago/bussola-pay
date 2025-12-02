@@ -27,7 +27,7 @@ public class Cliente extends PersistentEntityModel {
     @Column(length = 14, unique = true)
     private String cpf;
 
-    @Valid
+    @Valid @NotNull
     @OneToOne @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 

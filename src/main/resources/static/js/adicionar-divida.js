@@ -9,6 +9,7 @@ const tipoDividaInput = document.getElementById('tipoDivida');
 const formaPagamentoInput = document.getElementById('formaPagamento');
 const itemsSection = document.getElementById('itemsSection');
 const labelValorTotal = document.getElementById('labelValorTotal');
+const labelItemValor = document.getElementById('labelItemValor');
 const labelDataVencimento = document.getElementById('labelDataVencimento');
 const infoValorTotal = document.getElementById('infoValorTotal');
 const valorTotalInput = document.getElementById('valorTotal');
@@ -34,13 +35,40 @@ const btnCloseModal = document.getElementById('btnCloseModal');
 const btnCancelarItem = document.getElementById('btnCancelarItem');
 const btnSalvarItem = document.getElementById('btnSalvarItem');
 const itemsList = document.getElementById('itemsList');
-const itemsSummary = document.getElementById('itemsSummary');
-const totalItensSpan = document.getElementById('totalItens');
-const valorTotalItensSpan = document.getElementById('valorTotalItens');
 
 // Array para armazenar itens
 let items = [];
 let formaPagamentoItem = 'vista';
+
+// Inicialização: Garante que o campo subDividasJson está vazio ao carregar
+document.addEventListener('DOMContentLoaded', function() {
+  const subDividasInput = document.getElementById('subDividasJson');
+  const tipoDivida = tipoDividaInput?.value || 'simples';
+  
+  // Define o valor inicial se estiver vazio
+  if (!tipoDividaInput.value) {
+    tipoDividaInput.value = 'simples';
+  }
+  
+  // Define forma de pagamento padrão para dívida simples
+  if (!formaPagamentoInput.value) {
+    formaPagamentoInput.value = 'vista';
+  }
+  
+  // Garante que o botão correto está ativo
+  togglePaymentBtns.forEach(btn => {
+    if (btn.getAttribute('data-payment') === formaPagamentoInput.value) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+  
+  if (subDividasInput && (tipoDivida === 'simples' || tipoDivida === '' || !tipoDivida)) {
+    subDividasInput.removeAttribute('name');
+    subDividasInput.value = '';
+  }
+});
 
 // Controle do checkbox de dívida recorrente
 dividaRecorrenteInput?.addEventListener('change', function() {
@@ -93,38 +121,32 @@ toggleBtns.forEach(btn => {
     if (tipo === 'composta') {
       // Mostra seção de itens
       itemsSection.style.display = 'block';
-      labelValorTotal.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="1" x2="12" y2="23"></line>
-          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-        </svg>
-        Dívida Principal (Valor Total)
-      `;
-      infoValorTotal.style.display = 'block';
-      valorTotalInput.readOnly = true;
-      valorTotalInput.style.cursor = 'not-allowed';
-      valorTotalInput.style.opacity = '0.7';
+      // Esconde completamente o campo de valor total para dívida composta
+      document.getElementById('valorTotalGroup').style.display = 'none';
+      // Remove obrigatoriedade e define valor 0
+      valorTotalInput.removeAttribute('required');
+      valorTotalInput.value = '0,00';
       // Esconde forma de pagamento (apenas sub-dívidas terão parcelamento)
       formaPagamentoGroup.style.display = 'none';
       parcelasGroup.style.display = 'none';
     } else {
       // Esconde seção de itens
       itemsSection.style.display = 'none';
-      labelValorTotal.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="1" x2="12" y2="23"></line>
-          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-        </svg>
-        Valor Total
-      `;
-      infoValorTotal.style.display = 'none';
-      valorTotalInput.readOnly = false;
-      valorTotalInput.style.cursor = 'text';
-      valorTotalInput.style.opacity = '1';
+      // Mostra o campo de valor total para dívida simples
+      document.getElementById('valorTotalGroup').style.display = 'block';
+      // Adiciona obrigatoriedade e limpa valor
+      valorTotalInput.setAttribute('required', 'required');
+      valorTotalInput.value = '';
       // Mostra forma de pagamento para dívida simples
       formaPagamentoGroup.style.display = 'block';
       items = []; // Limpa itens ao voltar para simples
       atualizarListaItens();
+      // Remove o atributo name do campo de sub-dívidas quando volta para simples
+      const subDividasInput = document.getElementById('subDividasJson');
+      if (subDividasInput) {
+        subDividasInput.removeAttribute('name');
+        subDividasInput.value = '';
+      }
     }
   });
 });
@@ -136,7 +158,8 @@ togglePaymentBtns.forEach(btn => {
     this.classList.add('active');
     
     const payment = this.getAttribute('data-payment');
-    formaPagamentoInput.value = payment;
+    // Atualiza o valor do input hidden com o formato do enum
+    formaPagamentoInput.value = payment === 'vista' ? 'A_VISTA' : 'PARCELADA';
     
     if (payment === 'parcelada') {
       parcelasGroup.style.display = 'block';
@@ -148,6 +171,13 @@ togglePaymentBtns.forEach(btn => {
           <line x1="3" y1="10" x2="21" y2="10"></line>
         </svg>
         Vencimento da Primeira Parcela
+      `;
+      labelValorTotal.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="1" x2="12" y2="23"></line>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+        </svg>
+        Valor Parcela
       `;
       checkboxRecorrente.style.display = 'block';
       calcularValorParcela();
@@ -163,6 +193,13 @@ togglePaymentBtns.forEach(btn => {
           <line x1="3" y1="10" x2="21" y2="10"></line>
         </svg>
         Data de Vencimento
+      `;
+      labelValorTotal.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="1" x2="12" y2="23"></line>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+        </svg>
+        Valor
       `;
       infoParcelamento.style.display = 'none';
     }
@@ -181,11 +218,13 @@ toggleItemPaymentBtns.forEach(btn => {
     if (payment === 'parcelada') {
       itemParcelasGroup.style.display = 'block';
       checkboxItemRecorrente.style.display = 'block';
+      labelItemValor.textContent = 'Valor Parcela';
       calcularValorParcelaItem();
     } else {
       itemParcelasGroup.style.display = 'none';
       checkboxItemRecorrente.style.display = 'none';
       itemRecorrenteInput.checked = false;
+      labelItemValor.textContent = 'Valor';
       infoItemParcelamento.style.display = 'none';
     }
   });
@@ -195,18 +234,28 @@ toggleItemPaymentBtns.forEach(btn => {
 function abrirModal() {
   modalAddItem.classList.add('active');
   document.body.style.overflow = 'hidden';
+  
+  // Reset valores dos campos
   document.getElementById('itemDescricao').value = '';
   document.getElementById('itemValor').value = '';
   itemNumeroParcelasInput.value = '';
   
-  // Reset forma de pagamento do item
+  // Reset forma de pagamento do item para À Vista
   toggleItemPaymentBtns.forEach(b => b.classList.remove('active'));
   toggleItemPaymentBtns[0].classList.add('active');
   formaPagamentoItem = 'vista';
+  
+  // Reset checkbox recorrente
+  itemRecorrenteInput.checked = false;
+  
+  // Reset estados dos campos e seções
   itemParcelasGroup.style.display = 'none';
   infoItemParcelamento.style.display = 'none';
   checkboxItemRecorrente.style.display = 'none';
-  itemRecorrenteInput.checked = false;
+  
+  // Garante que o campo de parcelas está habilitado e com placeholder correto
+  itemNumeroParcelasInput.disabled = false;
+  itemNumeroParcelasInput.placeholder = 'Ex: 12';
   
   document.getElementById('itemDescricao').focus();
 }
@@ -246,17 +295,24 @@ btnSalvarItem?.addEventListener('click', () => {
   };
   
   if (formaPagamentoItem === 'parcelada') {
-    const numeroParcelas = parseInt(itemNumeroParcelasInput.value);
-    if (!numeroParcelas || numeroParcelas < 2) {
-      mostrarErroModal('Digite o número de parcelas (mínimo 2)');
-      return;
+    const isRecorrente = itemRecorrenteInput.checked;
+    
+    if (!isRecorrente) {
+      // Só valida parcelas se NÃO for recorrente
+      const numeroParcelas = parseInt(itemNumeroParcelasInput.value);
+      if (!numeroParcelas || numeroParcelas < 2) {
+        mostrarErroModal('Digite o número de parcelas (mínimo 2)');
+        return;
+      }
+      item.numeroParcelas = numeroParcelas;
     }
-    item.numeroParcelas = numeroParcelas;
-    item.recorrente = itemRecorrenteInput.checked;
+    
+    item.recorrente = isRecorrente;
   }
   
   items.push(item);
   atualizarListaItens();
+  atualizarSubDividasJson();
   fecharModal();
 });
 
@@ -285,18 +341,21 @@ function atualizarListaItens() {
         <span>Clique em "Adicionar Item" para começar</span>
       </div>
     `;
-    itemsSummary.style.display = 'none';
-    valorTotalInput.value = '';
     return;
   }
   
   // Renderiza itens
   itemsList.innerHTML = items.map(item => {
     let infoPagamento = '';
-    if (item.formaPagamento === 'parcelada' && item.numeroParcelas) {
-      const valorParcela = item.valor / item.numeroParcelas;
-      const textoRecorrente = item.recorrente ? ' (Recorrente)' : '';
-      infoPagamento = `<div class="item-payment-info">Parcelada ${item.numeroParcelas}x de R$ ${formatarMoeda(valorParcela)}${textoRecorrente}</div>`;
+    if (item.formaPagamento === 'parcelada') {
+      if (item.recorrente) {
+        // Para recorrente, mostra apenas que é mensal
+        infoPagamento = `<div class="item-payment-info">Parcelada Mensal (Recorrente)</div>`;
+      } else if (item.numeroParcelas) {
+        // Para parcelada normal, mostra parcelas e total
+        const valorTotal = item.valor * item.numeroParcelas;
+        infoPagamento = `<div class="item-payment-info">Parcelada ${item.numeroParcelas}x - Total: R$ ${formatarMoeda(valorTotal)}</div>`;
+      }
     } else {
       infoPagamento = `<div class="item-payment-info">À Vista</div>`;
     }
@@ -319,21 +378,37 @@ function atualizarListaItens() {
       </div>
     `;
   }).join('');
+
   
-  // Atualiza resumo
-  const total = items.reduce((sum, item) => sum + item.valor, 0);
-  totalItensSpan.textContent = items.length;
-  valorTotalItensSpan.textContent = `R$ ${formatarMoeda(total)}`;
-  itemsSummary.style.display = 'block';
+  // Atualiza campo hidden com JSON das subdívidas
+  atualizarSubDividasJson();
+}
+
+// Atualizar campo hidden com JSON das subdívidas
+function atualizarSubDividasJson() {
+  const subDividasInput = document.getElementById('subDividasJson');
+  if (!subDividasInput) return;
   
-  // Atualiza valor total principal
-  valorTotalInput.value = formatarMoeda(total);
+  // Garante que o campo tem o atributo name para ser enviado
+  subDividasInput.setAttribute('name', 'subDividasJson');
+  
+  // Converte itens para o formato esperado pelo backend
+  const subDividas = items.map(item => ({
+    descricao: item.descricao,
+    valor: item.valor.toString().replace('.', ','),
+    formaDePagamento: item.formaPagamento === 'vista' ? 'A_VISTA' : 'PARCELADA',
+    parcelamento: item.numeroParcelas ? item.numeroParcelas.toString() : null
+  }));
+  
+  // Serializa para JSON
+  subDividasInput.value = JSON.stringify(subDividas);
 }
 
 // Remover Item
 function removerItem(id) {
   items = items.filter(item => item.id !== id);
   atualizarListaItens();
+  atualizarSubDividasJson();
 }
 
 // Formatação de moeda
@@ -359,6 +434,42 @@ document.getElementById('itemValor')?.addEventListener('input', function(e) {
   valor = (parseInt(valor) / 100).toFixed(2);
   e.target.value = formatarMoeda(parseFloat(valor));
 });
+
+// Calcular valor da parcela (Dívida Principal)
+function calcularValorParcela() {
+  const valorParcela = parseMoeda(valorTotalInput.value);
+  const parcelas = parseInt(numeroParcelasInput.value);
+  
+  if (valorParcela > 0 && parcelas >= 2 && !dividaRecorrenteInput.checked) {
+    const valorTotal = valorParcela * parcelas;
+    valorParcelaSpan.textContent = `R$ ${formatarMoeda(valorTotal)}`;
+    infoParcelamento.style.display = 'block';
+  } else {
+    infoParcelamento.style.display = 'none';
+  }
+}
+
+// Calcular valor total da sub-dívida no modal
+function calcularValorParcelaItem() {
+  const valorStr = document.getElementById('itemValor').value.trim();
+  const valorParcela = parseMoeda(valorStr);
+  const parcelas = parseInt(itemNumeroParcelasInput.value);
+  
+  if (valorParcela > 0 && parcelas >= 2 && !itemRecorrenteInput.checked) {
+    const valorTotal = valorParcela * parcelas;
+    
+    itemValorParcelaSpan.textContent = `R$ ${formatarMoeda(valorTotal)}`;
+    infoItemParcelamento.style.display = 'block';
+  } else {
+    infoItemParcelamento.style.display = 'none';
+  }
+}
+
+// Event listeners para calcular parcelas
+numeroParcelasInput?.addEventListener('input', calcularValorParcela);
+valorTotalInput?.addEventListener('input', calcularValorParcela);
+itemNumeroParcelasInput?.addEventListener('input', calcularValorParcelaItem);
+document.getElementById('itemValor')?.addEventListener('input', calcularValorParcelaItem);
 
 // Validações
 function mostrarErro(campoId, mensagem) {
@@ -449,7 +560,7 @@ formAdicionarDivida?.addEventListener('submit', function(e) {
   const descricao = document.getElementById('descricao').value.trim();
   const valorTotal = valorTotalInput.value.trim();
   const dataVencimento = document.getElementById('dataVencimento').value;
-  const tipoDivida = tipoDividaInput.value;
+  const tipoDivida = tipoDividaInput?.value || 'simples';
   
   // Validar descrição
   if (descricao === '' || descricao.length < 3) {
@@ -470,9 +581,9 @@ formAdicionarDivida?.addEventListener('submit', function(e) {
       }
     }
   } else {
-    // Dívida composta
+    // Dívida composta - apenas valida se tem itens
     if (items.length === 0) {
-      mostrarErro('valorTotal', 'Adicione pelo menos um item à dívida composta.');
+      alert('Adicione pelo menos um item à dívida composta.');
       temErro = true;
     }
   }
@@ -496,30 +607,27 @@ formAdicionarDivida?.addEventListener('submit', function(e) {
     return false;
   }
   
-  // Se for dívida composta, adiciona os itens ao formulário
+  // Atualiza o JSON das subdívidas APENAS se for dívida composta
+  const subDividasInput = document.getElementById('subDividasJson');
   if (tipoDivida === 'composta') {
-    items.forEach((item, index) => {
-      const inputDescricao = document.createElement('input');
-      inputDescricao.type = 'hidden';
-      inputDescricao.name = `itens[${index}].descricao`;
-      inputDescricao.value = item.descricao;
-      this.appendChild(inputDescricao);
-      
-      const inputValor = document.createElement('input');
-      inputValor.type = 'hidden';
-      inputValor.name = `itens[${index}].valor`;
-      inputValor.value = item.valor;
-      this.appendChild(inputValor);
-    });
+    atualizarSubDividasJson();
+    // Remove o campo valorTotal para dívida composta (será calculado no backend)
+    valorTotalInput.removeAttribute('name');
+  } else {
+    // Remove o campo completamente do formulário para dívida simples
+    if (subDividasInput) {
+      subDividasInput.removeAttribute('name');
+      subDividasInput.value = '';
+    }
+    
+    // Converte valor formatado para número antes de enviar (apenas para dívida simples)
+    const valorNumerico = parseMoeda(valorTotal);
+    const inputValorNumerico = document.createElement('input');
+    inputValorNumerico.type = 'hidden';
+    inputValorNumerico.name = 'valorNumerico';
+    inputValorNumerico.value = valorNumerico;
+    this.appendChild(inputValorNumerico);
   }
-  
-  // Converte valor formatado para número antes de enviar
-  const valorNumerico = parseMoeda(valorTotal);
-  const inputValorNumerico = document.createElement('input');
-  inputValorNumerico.type = 'hidden';
-  inputValorNumerico.name = 'valorNumerico';
-  inputValorNumerico.value = valorNumerico;
-  this.appendChild(inputValorNumerico);
   
   // Submit do formulário
   this.submit();

@@ -35,16 +35,19 @@ public class ClienteController {
                     .map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
 
             mv.setViewName("/cadastro");
-            mv.addObject("cliente", clienteCreate);
-            mv.addObject("erros", erros);
+            mv.addObject("cliente", clienteCreate)
+                    .addObject("erros", erros);
+
+            return mv;
         }
 
         try {
             clienteService.save(clienteCreate);
+            // TODO: ativa mensagem de criado com sucesso
         } catch (UsuarioException usuarioException){
             mv.setViewName("/cadastro");
-            mv.addObject("cliente", clienteCreate);
-            mv.addObject("erros", List.of(usuarioException.getMessage()));
+            mv.addObject("cliente", clienteCreate)
+                    .addObject("erros", List.of(usuarioException.getMessage()));
         }
 
         return mv;

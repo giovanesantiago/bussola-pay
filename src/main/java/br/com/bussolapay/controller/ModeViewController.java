@@ -1,6 +1,7 @@
 package br.com.bussolapay.controller;
 
 import br.com.bussolapay.model.ClienteCreate;
+import br.com.bussolapay.model.DividaCreate;
 import br.com.bussolapay.service.ClienteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,7 @@ public class ModeViewController {
     @GetMapping("/adicionar/divida")
     public ModelAndView viewCadastroDivida() {
         ModelAndView mv = new ModelAndView("adicionar-divida");
-
+        mv.addObject("divida", new DividaCreate());
         return mv;
     }
 
