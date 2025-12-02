@@ -1,15 +1,13 @@
 package br.com.bussolapay.model;
 
 import br.com.bussolapay.common.Convercoes;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
-
-import java.util.Optional;
 
 @Entity @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 public class ClienteCreate extends PersistentEntityModel {
