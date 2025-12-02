@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
 
-@Entity @Getter @Setter @AllArgsConstructor @NoArgsConstructor
+ @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 public class ClienteCreate extends PersistentEntityModel {
 
     @NotNull(message = "Favor informar campo nome")
