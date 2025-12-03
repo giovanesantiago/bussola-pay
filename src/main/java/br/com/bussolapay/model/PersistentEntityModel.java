@@ -1,13 +1,20 @@
 package br.com.bussolapay.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Comparator;
 
 
-@MappedSuperclass
+@MappedSuperclass @SuperBuilder @AllArgsConstructor @NoArgsConstructor @Getter @Setter
 public abstract class PersistentEntityModel implements Comparator<Object>, Serializable  {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -16,22 +23,6 @@ public abstract class PersistentEntityModel implements Comparator<Object>, Seria
 
     @Version
     private int version;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
 
 
     @Override
@@ -57,9 +48,7 @@ public abstract class PersistentEntityModel implements Comparator<Object>, Seria
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (version != other.version)
-            return false;
-        return true;
+        return version == other.version;
     }
 
     @Override

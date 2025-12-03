@@ -19,4 +19,11 @@ public class Convercoes {
         return Optional.ofNullable(cpf).orElse("").replaceAll("\\D", "");
     }
 
+    /**
+     * @Modelo R$1.000,00
+     */
+    public static Double realComCifraoToDoubleWithCommaFinal(String valor) {
+        return valor.isEmpty()?0.0:Double.parseDouble(valor.trim().replaceAll("[rR$.]", "").replaceAll(",", "."));
+    }
+
 }

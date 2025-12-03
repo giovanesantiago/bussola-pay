@@ -2,12 +2,10 @@ package br.com.bussolapay.model;
 
 
 import com.google.gson.Gson;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,7 +23,6 @@ public class DividaCreate extends DividaCreateBase {
     @Pattern(regexp = "^[^<>]*$", message = "Nome contém caracteres inválidos")
     public String dataVecimento;
 
-    @Valid
     @Getter(AccessLevel.NONE)
     public List<SubDividaCreate> subDividas;
 

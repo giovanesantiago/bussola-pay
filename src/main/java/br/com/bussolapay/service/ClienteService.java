@@ -33,11 +33,19 @@ public class ClienteService {
         }
     }
 
-    public ClienteDTO getClienteLogado() {
+    public ClienteDTO getClienteDTOLogado() {
         Optional<Cliente> clienteOptional = repository.findClienteByUsuario_Login(
                 SecurityContextHolder.getContext().getAuthentication().getName()
         );
 
         return new ClienteDTO(clienteOptional.orElseThrow(NotFoundException::new));
+    }
+
+    public Cliente getClienteLogado() {
+        Optional<Cliente> clienteOptional = repository.findClienteByUsuario_Login(
+                SecurityContextHolder.getContext().getAuthentication().getName()
+        );
+
+        return clienteOptional.orElseThrow(NotFoundException::new);
     }
 }

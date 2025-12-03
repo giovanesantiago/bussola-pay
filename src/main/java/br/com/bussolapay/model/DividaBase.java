@@ -10,18 +10,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@MappedSuperclass @Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@MappedSuperclass @Getter @Setter @AllArgsConstructor @NoArgsConstructor @SuperBuilder
 public class DividaBase extends PersistentEntityModel{
     @NotNull(message = "Favor informar campo descrição")
     public String descricao;
-
-    @NotNull(message = "Favor informar campo tipo divida")
-    @Column(name = "tipo_divida") @Enumerated(EnumType.STRING)
-    public TipoDivida tipoDivida;
 
     @NotNull(message = "Favor informar campo tipo valor")
     public BigDecimal valor;
@@ -30,7 +27,11 @@ public class DividaBase extends PersistentEntityModel{
     public Integer posicaoParcelamento;
     public Boolean recorrente;
 
-    @NotNull(message = "Favor informar campo data vecimento")
-    @Column(name = "data_vecimento")
-    public LocalDate dataVecimento;
+    @NotNull(message = "Favor informar campo data vencimento")
+    @Column(name = "data_vencimento")
+    public LocalDate dataVencimento;
+
+    @NotNull(message = "Favor informar campo tipo divida")
+    @Column(name = "tipo_divida") @Enumerated(EnumType.STRING)
+    public TipoDivida tipoDivida;
 }

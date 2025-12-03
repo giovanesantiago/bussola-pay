@@ -26,7 +26,7 @@ public class ClienteController {
 
     @PostMapping() @SuppressWarnings(value = "XSSVulnerability")
     public ModelAndView newCliente(@ModelAttribute("cliente") @Valid ClienteCreate clienteCreate, BindingResult result){
-        ModelAndView mv = new ModelAndView("/login");
+        ModelAndView mv = new ModelAndView("login");
 
         if(result.hasErrors()){
             List<String> erros =
@@ -34,7 +34,7 @@ public class ClienteController {
                     .stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
 
-            mv.setViewName("/cadastro");
+            mv.setViewName("cadastro");
             mv.addObject("cliente", clienteCreate)
                     .addObject("erros", erros);
 
@@ -45,7 +45,7 @@ public class ClienteController {
             clienteService.save(clienteCreate);
             // TODO: ativa mensagem de criado com sucesso
         } catch (UsuarioException usuarioException){
-            mv.setViewName("/cadastro");
+            mv.setViewName("cadastro");
             mv.addObject("cliente", clienteCreate)
                     .addObject("erros", List.of(usuarioException.getMessage()));
         }
