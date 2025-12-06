@@ -22,10 +22,6 @@ const itemNumeroParcelasInput = document.getElementById('itemNumeroParcelas');
 const infoItemParcelamento = document.getElementById('infoItemParcelamento');
 const itemValorParcelaSpan = document.getElementById('itemValorParcela');
 const formaPagamentoGroup = document.getElementById('formaPagamentoGroup');
-const checkboxRecorrente = document.getElementById('checkboxRecorrente');
-const dividaRecorrenteInput = document.getElementById('dividaRecorrente');
-const checkboxItemRecorrente = document.getElementById('checkboxItemRecorrente');
-const itemRecorrenteInput = document.getElementById('itemRecorrente');
 
 // Modal e Itens
 const modalAddItem = document.getElementById('modalAddItem');
@@ -67,34 +63,6 @@ document.addEventListener('DOMContentLoaded', function() {
   if (subDividasInput && (tipoDivida === 'simples' || tipoDivida === '' || !tipoDivida)) {
     subDividasInput.removeAttribute('name');
     subDividasInput.value = '';
-  }
-});
-
-// Controle do checkbox de dívida recorrente
-dividaRecorrenteInput?.addEventListener('change', function() {
-  if (this.checked) {
-    numeroParcelasInput.value = '';
-    numeroParcelasInput.disabled = true;
-    numeroParcelasInput.placeholder = 'Não aplicável para dívida recorrente';
-    infoParcelamento.style.display = 'none';
-  } else {
-    numeroParcelasInput.disabled = false;
-    numeroParcelasInput.placeholder = 'Ex: 12';
-    calcularValorParcela();
-  }
-});
-
-// Controle do checkbox de item recorrente
-itemRecorrenteInput?.addEventListener('change', function() {
-  if (this.checked) {
-    itemNumeroParcelasInput.value = '';
-    itemNumeroParcelasInput.disabled = true;
-    itemNumeroParcelasInput.placeholder = 'Não aplicável para sub-dívida recorrente';
-    infoItemParcelamento.style.display = 'none';
-  } else {
-    itemNumeroParcelasInput.disabled = false;
-    itemNumeroParcelasInput.placeholder = 'Ex: 12';
-    calcularValorParcelaItem();
   }
 });
 
@@ -179,12 +147,9 @@ togglePaymentBtns.forEach(btn => {
         </svg>
         Valor Parcela
       `;
-      checkboxRecorrente.style.display = 'block';
       calcularValorParcela();
     } else {
       parcelasGroup.style.display = 'none';
-      checkboxRecorrente.style.display = 'none';
-      dividaRecorrenteInput.checked = false;
       labelDataVencimento.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
@@ -217,13 +182,10 @@ toggleItemPaymentBtns.forEach(btn => {
     
     if (payment === 'parcelada') {
       itemParcelasGroup.style.display = 'block';
-      checkboxItemRecorrente.style.display = 'block';
       labelItemValor.textContent = 'Valor Parcela';
       calcularValorParcelaItem();
     } else {
       itemParcelasGroup.style.display = 'none';
-      checkboxItemRecorrente.style.display = 'none';
-      itemRecorrenteInput.checked = false;
       labelItemValor.textContent = 'Valor';
       infoItemParcelamento.style.display = 'none';
     }
@@ -245,17 +207,9 @@ function abrirModal() {
   toggleItemPaymentBtns[0].classList.add('active');
   formaPagamentoItem = 'vista';
   
-  // Reset checkbox recorrente
-  itemRecorrenteInput.checked = false;
-  
   // Reset estados dos campos e seções
   itemParcelasGroup.style.display = 'none';
   infoItemParcelamento.style.display = 'none';
-  checkboxItemRecorrente.style.display = 'none';
-  
-  // Garante que o campo de parcelas está habilitado e com placeholder correto
-  itemNumeroParcelasInput.disabled = false;
-  itemNumeroParcelasInput.placeholder = 'Ex: 12';
   
   document.getElementById('itemDescricao').focus();
 }
@@ -295,19 +249,12 @@ btnSalvarItem?.addEventListener('click', () => {
   };
   
   if (formaPagamentoItem === 'parcelada') {
-    const isRecorrente = itemRecorrenteInput.checked;
-    
-    if (!isRecorrente) {
-      // Só valida parcelas se NÃO for recorrente
-      const numeroParcelas = parseInt(itemNumeroParcelasInput.value);
-      if (!numeroParcelas || numeroParcelas < 2) {
-        mostrarErroModal('Digite o número de parcelas (mínimo 2)');
-        return;
-      }
-      item.numeroParcelas = numeroParcelas;
+    const numeroParcelas = parseInt(itemNumeroParcelasInput.value);
+    if (!numeroParcelas || numeroParcelas < 2) {
+      mostrarErroModal('Digite o número de parcelas (mínimo 2)');
+      return;
     }
-    
-    item.recorrente = isRecorrente;
+    item.numeroParcelas = numeroParcelas;
   }
   
   items.push(item);
@@ -348,11 +295,7 @@ function atualizarListaItens() {
   itemsList.innerHTML = items.map(item => {
     let infoPagamento = '';
     if (item.formaPagamento === 'parcelada') {
-      if (item.recorrente) {
-        // Para recorrente, mostra apenas que é mensal
-        infoPagamento = `<div class="item-payment-info">Parcelada Mensal (Recorrente)</div>`;
-      } else if (item.numeroParcelas) {
-        // Para parcelada normal, mostra parcelas e total
+      if (item.numeroParcelas) {
         const valorTotal = item.valor * item.numeroParcelas;
         infoPagamento = `<div class="item-payment-info">Parcelada ${item.numeroParcelas}x - Total: R$ ${formatarMoeda(valorTotal)}</div>`;
       }
@@ -440,7 +383,7 @@ function calcularValorParcela() {
   const valorParcela = parseMoeda(valorTotalInput.value);
   const parcelas = parseInt(numeroParcelasInput.value);
   
-  if (valorParcela > 0 && parcelas >= 2 && !dividaRecorrenteInput.checked) {
+  if (valorParcela > 0 && parcelas >= 2) {
     const valorTotal = valorParcela * parcelas;
     valorParcelaSpan.textContent = `R$ ${formatarMoeda(valorTotal)}`;
     infoParcelamento.style.display = 'block';
@@ -455,7 +398,7 @@ function calcularValorParcelaItem() {
   const valorParcela = parseMoeda(valorStr);
   const parcelas = parseInt(itemNumeroParcelasInput.value);
   
-  if (valorParcela > 0 && parcelas >= 2 && !itemRecorrenteInput.checked) {
+  if (valorParcela > 0 && parcelas >= 2) {
     const valorTotal = valorParcela * parcelas;
     
     itemValorParcelaSpan.textContent = `R$ ${formatarMoeda(valorTotal)}`;

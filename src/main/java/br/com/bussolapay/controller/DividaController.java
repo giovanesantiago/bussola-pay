@@ -29,7 +29,7 @@ public class DividaController {
     private final ClienteService clienteService;
 
     @PostMapping() @SuppressWarnings(value = "XSSVulnerability")
-    public ModelAndView newCliente(@ModelAttribute("divida") @Valid DividaCreate dividaCreate, BindingResult result){
+    public ModelAndView newDivida(@ModelAttribute("divida") @Valid DividaCreate dividaCreate, BindingResult result){
         ModelAndView mv = new ModelAndView("dashboard");
         mv.addObject("data", Map.of(
                 "nomeUsuario", clienteService.getClienteDTOLogado().getNome()

@@ -17,6 +17,7 @@ import java.time.LocalDate;
 
 @MappedSuperclass @Getter @Setter @AllArgsConstructor @NoArgsConstructor @SuperBuilder
 public class DividaBase extends PersistentEntityModel{
+
     @NotNull(message = "Favor informar campo descrição")
     public String descricao;
 
@@ -25,7 +26,6 @@ public class DividaBase extends PersistentEntityModel{
 
     public Integer parcelamento;
     public Integer posicaoParcelamento;
-    public Boolean recorrente;
 
     @NotNull(message = "Favor informar campo data vencimento")
     @Column(name = "data_vencimento")
