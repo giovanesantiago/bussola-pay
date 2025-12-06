@@ -57,7 +57,7 @@
                 <div class="day-body">
                     <div th:if="${dia.qntDividas > 0}" class="day-amount">
                         <span class="currency">R$</span>
-                        <span class="value" th:text="${dia.valorTotal}">1.500,00</span>
+                        <span class="value" th:text="${dia.valorTotalAPagar}">1.500,00</span>
                     </div>
                     <span th:if="${dia.qntDividas > 0}" class="amount-label">a pagar</span>
                     <div th:unless="${dia.qntDividas > 0}"  class="day-amount no-debts">
@@ -124,18 +124,19 @@
             <!--TODO :  Tela "Detalhe da Dívida" (Para as sub-dividas exibidas na lista de dividas -->
         </div>
 
+        <div class="section-header" style="margin-top: 50px">
+            <h2 class="section-title">Dívidas do Periodo</h2>
+            <p class="section-subtitle" id="dividasSubtitle">Selecione um dia para ver as dívidas</p>
+        </div>
+
         <!-- Seção de Tabela de Dívidas -->
         <div class="dividas-section" id="dividasSection" style="display: none;">
-            <div class="section-header">
-                <h2 class="section-title">Dívidas do Dia</h2>
-                <p class="section-subtitle" id="dividasSubtitle">Selecione um dia para ver as dívidas</p>
-            </div>
-
             <div class="table-container">
                 <table class="dividas-table">
                     <thead>
                         <tr>
                             <th>Descrição</th>
+                            <th>Vencimento</th>
                             <th>Valor</th>
                             <th>Status</th>
                         </tr>
@@ -155,6 +156,13 @@
                             </td>
                         </tr>
                     </tbody>
+                    <tfoot id="dividasTableFooter" style="display: none;">
+                        <tr class="total-row">
+                            <td colspan="2"><strong>Total</strong></td>
+                            <td><strong id="valorTotalDisplay">R$ 0,00</strong></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>

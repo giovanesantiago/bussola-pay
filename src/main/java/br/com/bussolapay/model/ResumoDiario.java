@@ -10,5 +10,6 @@ public class ResumoDiario {
     private String semana;
     private String diaMes;
     private String valorTotal;
+    private String valorTotalAPagar;
     private List<DividaDTO> dividas;
 }

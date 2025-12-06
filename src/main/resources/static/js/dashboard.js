@@ -58,6 +58,7 @@ function mostrarDividas(diaIndex, dayLabel, dayDate) {
   // Busca as dívidas do dia selecionado (assumindo que resumoDiarioData está disponível)
   const dia = resumoDiarioData && resumoDiarioData[diaIndex];
   const dividas = dia ? dia.dividas : [];
+  const valorTotal = dia ? dia.valorTotal : 0;
   
   // Atualiza o subtítulo
   dividasSubtitle.textContent = `Dívidas de ${dayLabel} - ${dayDate}`;
@@ -68,11 +69,15 @@ function mostrarDividas(diaIndex, dayLabel, dayDate) {
   // Limpa a tabela
   dividasTableBody.innerHTML = '';
   
+  // Oculta o footer por padrão
+  const tableFooter = document.getElementById('dividasTableFooter');
+  tableFooter.style.display = 'none';
+  
   // Se não houver dívidas, mostra estado vazio
   if (!dividas || dividas.length === 0) {
     dividasTableBody.innerHTML = `
       <tr class="empty-state-row">
-        <td colspan="3">
+        <td colspan="4">
           <div class="empty-state-table">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"></circle>
@@ -129,14 +134,43 @@ function mostrarDividas(diaIndex, dayLabel, dayDate) {
       `;
     }
     
+    // Formata a data de vencimento
+    const dataFormatada = new Date(divida.dataVencimento + 'T00:00:00').toLocaleDateString('pt-BR');
+    
+    // Formata o valor
+    const valorFormatado = new Intl.NumberFormat('pt-BR', { 
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2 
+    }).format(divida.valor);
+    
     row.innerHTML = `
       <td>${divida.descricao}</td>
-      <td>R$ ${divida.valor}</td>
+      <td>${dataFormatada}</td>
+      <td>R$ ${valorFormatado}</td>
       <td>${statusBadge}</td>
     `;
     
     dividasTableBody.appendChild(row);
   });
+  
+  // Exibe o valor total no footer
+  console.log('Valor total do dia:', valorTotal);
+  console.log('Objeto dia completo:', dia);
+  
+  // Remove "R$" e converte vírgula para ponto se vier como string formatada
+  let valorTotalNumerico = valorTotal;
+  if (typeof valorTotal === 'string') {
+    valorTotalNumerico = parseFloat(valorTotal.replace('R$', '').replace(/\s/g, '').replace(',', '.'));
+  }
+  valorTotalNumerico = parseFloat(valorTotalNumerico) || 0;
+  
+  const valorFormatado = new Intl.NumberFormat('pt-BR', { 
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2 
+  }).format(valorTotalNumerico);
+  
+  document.getElementById('valorTotalDisplay').textContent = `R$ ${valorFormatado}`;
+  tableFooter.style.display = '';
   
   // Scroll suave até a tabela
   setTimeout(() => {

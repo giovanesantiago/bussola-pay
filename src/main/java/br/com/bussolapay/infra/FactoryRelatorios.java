@@ -3,6 +3,7 @@ package br.com.bussolapay.infra;
 import br.com.bussolapay.model.DividaDTO;
 import br.com.bussolapay.model.RangeDate;
 import br.com.bussolapay.model.ResumoDiario;
+import br.com.bussolapay.model.enums.StatusDivida;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
@@ -43,6 +44,7 @@ public class FactoryRelatorios {
                             )
                             .diaMes(data.format(DateTimeFormatter.ofPattern("dd/MM")))
                             .valorTotal(dividasDoDia.isEmpty() ? "R$ 0,00" : calcularValorTotalComSubDividas(dividasDoDia))
+                            .valorTotalAPagar(dividasDoDia.isEmpty() ? "R$ 0,00" : calcularValorTotalComSubDividasPedente(dividasDoDia))
                             .dividas(dividasDoDia)
                             .build();
                 })
@@ -57,16 +59,26 @@ public class FactoryRelatorios {
         return NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(total);
     }
 
-    public static List<ResumoDiario> generateResumoTotal(List<DividaDTO> dividas) {
+    private static String calcularValorTotalComSubDividasPedente(List<DividaDTO> dividas) {
+        BigDecimal total = dividas.stream()
+                .filter(e -> e.getStatus().equals(StatusDivida.PENDENTE.name()))
+                .map(DividaDTO::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(total);
+    }
+
+    public static List<ResumoDiario> generateResumoTotal(List<DividaDTO> dividas, RangeDate rangeDate) {
 
         return List.of(
                 ResumoDiario.builder()
-                .qntDividas(dividas.size())
-                .semana("Relatorio Personalizado")
-                .diaMes("**/**")
-                .valorTotal(dividas.isEmpty() ? "R$ 0,00" : calcularValorTotalComSubDividas(dividas))
-                .dividas(dividas)
-                .build()
+                        .qntDividas(dividas.size())
+                        .semana("Relatorio Personalizado")
+                        .diaMes(rangeDate.getDataInicio().format(DateTimeFormatter.ofPattern("dd/MM")) + " - " + rangeDate.getDataFim().format(DateTimeFormatter.ofPattern("dd/MM")))
+                        .valorTotal(dividas.isEmpty() ? "R$ 0,00" : calcularValorTotalComSubDividas(dividas))
+                        .valorTotalAPagar(dividas.isEmpty() ? "R$ 0,00" : calcularValorTotalComSubDividasPedente(dividas))
+                        .dividas(dividas)
+                        .build()
         );
 
     }

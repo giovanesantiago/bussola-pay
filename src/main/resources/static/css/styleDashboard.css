@@ -470,6 +470,24 @@ main {
     color: #5B9FFF;
 }
 
+/* Linha de Total */
+.dividas-table tfoot .total-row {
+    background: rgba(91, 159, 255, 0.1);
+    border-top: 2px solid rgba(91, 159, 255, 0.3);
+}
+
+.dividas-table tfoot .total-row td {
+    padding: 18px 20px;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.dividas-table tfoot .total-row td:nth-child(2) {
+    font-weight: 700;
+    color: #5B9FFF;
+    font-size: 18px;
+}
+
 .status-badge {
     display: inline-flex;
     align-items: center;

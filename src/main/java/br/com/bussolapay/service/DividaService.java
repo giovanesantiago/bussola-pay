@@ -52,6 +52,6 @@ public class DividaService {
         if (range.isVencida())
             dividas.addAll(dividaRepository.findDividaDTOByBetweenAndStatus(range.getDataInicio(), range.getDataFim(), StatusDivida.VENCIDA.name(), clienteService.getClienteLogado().getId()));
 
-        return FactoryRelatorios.generateResumoTotal(dividas);
+        return FactoryRelatorios.generateResumoTotal(dividas, range);
     }
 }
