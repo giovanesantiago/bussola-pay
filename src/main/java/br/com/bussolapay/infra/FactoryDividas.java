@@ -2,6 +2,7 @@ package br.com.bussolapay.infra;
 
 import br.com.bussolapay.common.Convercoes;
 import br.com.bussolapay.model.*;
+import br.com.bussolapay.model.enums.StatusDivida;
 import br.com.bussolapay.model.enums.TipoDivida;
 
 import java.math.BigDecimal;
@@ -34,6 +35,7 @@ public class FactoryDividas {
                 Divida.builder()
                         .descricao(dividaCreate.getDescricao())
                         .tipoDivida(TipoDivida.SIMPLES_A_VISTA)
+                        .status(StatusDivida.PENDENTE)
                         .valor(new BigDecimal(
                                 Convercoes.realComCifraoToDoubleWithCommaFinal(dividaCreate.getValor()))
                         )
@@ -52,6 +54,7 @@ public class FactoryDividas {
                     Divida.builder()
                             .descricao(dividaCreate.getDescricao())
                             .tipoDivida(TipoDivida.SIMPLES_PARCELADA)
+                            .status(StatusDivida.PENDENTE)
                             .valor(new BigDecimal(
                                     Convercoes.realComCifraoToDoubleWithCommaFinal(dividaCreate.getValor()))
                             )
@@ -71,6 +74,7 @@ public class FactoryDividas {
         Divida retorno = Divida.builder()
                 .descricao(dividaCreate.getDescricao())
                 .tipoDivida(TipoDivida.COMPOSTA)
+                .status(StatusDivida.PENDENTE)
                 .dataVencimento(LocalDate.parse(dividaCreate.getDataVecimento()))
                 .subDividas(new ArrayList<>())
                 .cliente(cliente)
@@ -105,6 +109,7 @@ public class FactoryDividas {
                 SubDivida.builder()
                         .descricao(subDividaCreate.getDescricao())
                         .tipoDivida(TipoDivida.SUB_DIVIDA_A_VISTA)
+                        .status(StatusDivida.PENDENTE)
                         .valor(new BigDecimal(
                                 Convercoes.realComCifraoToDoubleWithCommaFinal(subDividaCreate.getValor()))
                         )
@@ -123,6 +128,7 @@ public class FactoryDividas {
                     SubDivida.builder()
                             .descricao(subDividaCreate.getDescricao())
                             .tipoDivida(TipoDivida.SUB_DIVIDA_PARCELADA)
+                            .status(StatusDivida.PENDENTE)
                             .valor(new BigDecimal(
                                     Convercoes.realComCifraoToDoubleWithCommaFinal(subDividaCreate.getValor()))
                             )

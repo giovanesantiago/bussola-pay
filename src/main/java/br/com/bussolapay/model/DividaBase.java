@@ -1,5 +1,6 @@
 package br.com.bussolapay.model;
 
+import br.com.bussolapay.model.enums.StatusDivida;
 import br.com.bussolapay.model.enums.TipoDivida;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
@@ -34,4 +35,9 @@ public class DividaBase extends PersistentEntityModel{
     @NotNull(message = "Favor informar campo tipo divida")
     @Column(name = "tipo_divida") @Enumerated(EnumType.STRING)
     public TipoDivida tipoDivida;
+
+    @Column(name = "status") @Enumerated(EnumType.STRING)
+    public StatusDivida status;
+
+
 }
