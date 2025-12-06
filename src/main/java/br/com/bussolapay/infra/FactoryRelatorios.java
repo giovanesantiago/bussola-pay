@@ -29,9 +29,9 @@ public class FactoryRelatorios {
                             .collect(Collectors.toList());
 
                     String diaSemana = "";
-                    if(data.equals(LocalDate.now())){
+                    if (data.equals(LocalDate.now())) {
                         diaSemana = "HOJE";
-                    } else if (data.equals(LocalDate.now().plusDays(1))){
+                    } else if (data.equals(LocalDate.now().plusDays(1))) {
                         diaSemana = "AMANHA";
                     }
                     return ResumoDiario.builder()
@@ -55,5 +55,19 @@ public class FactoryRelatorios {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         return NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(total);
+    }
+
+    public static List<ResumoDiario> generateResumoTotal(List<DividaDTO> dividas) {
+
+        return List.of(
+                ResumoDiario.builder()
+                .qntDividas(dividas.size())
+                .semana("Relatorio Personalizado")
+                .diaMes("**/**")
+                .valorTotal(dividas.isEmpty() ? "R$ 0,00" : calcularValorTotalComSubDividas(dividas))
+                .dividas(dividas)
+                .build()
+        );
+
     }
 }

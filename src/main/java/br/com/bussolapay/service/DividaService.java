@@ -6,11 +6,13 @@ import br.com.bussolapay.infra.FactoryRelatorios;
 import br.com.bussolapay.model.*;
 import br.com.bussolapay.model.enums.StatusDivida;
 import br.com.bussolapay.repository.DividaRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +39,19 @@ public class DividaService {
         );
 
 
-        return FactoryRelatorios.generateResumoPorDia(dividas , new RangeDate(LocalDate.now(), LocalDate.now().plusDays(4L)));
+        return FactoryRelatorios.generateResumoPorDia(dividas, new RangeDate(LocalDate.now(), LocalDate.now().plusDays(4L)));
+    }
+
+    public List<ResumoDiario> getResumosDiariosPesonalizadoes(@Valid RangeDateAndFiltros range) {
+        List<DividaDTO> dividas = new ArrayList<>();
+
+        if (range.isPaga())
+            dividas.addAll(dividaRepository.findDividaDTOByBetweenAndStatus(range.getDataInicio(), range.getDataFim(), StatusDivida.PAGA.name(), clienteService.getClienteLogado().getId()));
+        if (range.isPendente())
+            dividas.addAll(dividaRepository.findDividaDTOByBetweenAndStatus(range.getDataInicio(), range.getDataFim(), StatusDivida.PENDENTE.name(), clienteService.getClienteLogado().getId()));
+        if (range.isVencida())
+            dividas.addAll(dividaRepository.findDividaDTOByBetweenAndStatus(range.getDataInicio(), range.getDataFim(), StatusDivida.VENCIDA.name(), clienteService.getClienteLogado().getId()));
+
+        return FactoryRelatorios.generateResumoTotal(dividas);
     }
 }

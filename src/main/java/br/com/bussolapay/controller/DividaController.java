@@ -3,6 +3,7 @@ package br.com.bussolapay.controller;
 import br.com.bussolapay.config.exceptions.DividasException;
 import br.com.bussolapay.model.DividaCreate;
 import br.com.bussolapay.model.RangeDateAndFiltros;
+import br.com.bussolapay.service.ClienteService;
 import br.com.bussolapay.service.DividaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -26,6 +28,7 @@ public class DividaController {
 
     private final DividaService dividaService;
     private final ModeViewController modeViewController;
+    private final ClienteService clienteService;
 
     @PostMapping() @SuppressWarnings(value = "XSSVulnerability")
     public ModelAndView newDivida(@ModelAttribute("divida") @Valid DividaCreate dividaCreate, BindingResult result){
@@ -57,7 +60,15 @@ public class DividaController {
     }
 
     @PostMapping("/filtrar")
-    public ModelAndView listar(@ModelAttribute("range") @Valid RangeDateAndFiltros range, BindingResult result){
-        return modeViewController.viewDashboard();
+    public ModelAndView listar(@ModelAttribute("range") @Valid RangeDateAndFiltros range){
+        ModelAndView mv = new ModelAndView("dashboard");
+
+        mv.addObject("data", Map.of(
+                "nomeUser", clienteService.getClienteDTOLogado().getNome(),
+                "resumoDiario", dividaService.getResumosDiariosPesonalizadoes(range)
+        ));
+        mv.addObject("range", new RangeDateAndFiltros());
+
+        return mv;
     }
 }
