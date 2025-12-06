@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### Meus ###
+/bd-docker
+docker-compose.yml
