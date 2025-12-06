@@ -3,6 +3,7 @@ package br.com.bussolapay.controller;
 import br.com.bussolapay.model.ClienteCreate;
 import br.com.bussolapay.model.DividaCreate;
 import br.com.bussolapay.service.ClienteService;
+import br.com.bussolapay.service.DividaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import java.util.Map;
 public class ModeViewController {
 
     private final ClienteService clienteService;
+    private final DividaService dividaService;
 
     @GetMapping("/cadastrar/cliente")
     public ModelAndView viewCadastro() {
@@ -30,7 +32,8 @@ public class ModeViewController {
         ModelAndView mv = new ModelAndView("dashboard");
 
         mv.addObject("data", Map.of(
-                "nomeUsuario", clienteService.getClienteLogado().getNome()
+                "nomeUser", clienteService.getClienteDTOLogado().getNome(),
+                "resumoDiario", dividaService.getResumosDiarios5Dias()
         ));
 
         return mv;

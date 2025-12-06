@@ -20,24 +20,24 @@ import java.time.LocalDate;
 public class DividaBase extends PersistentEntityModel{
 
     @NotNull(message = "Favor informar campo descrição")
-    public String descricao;
+    private String descricao;
 
     @NotNull(message = "Favor informar campo tipo valor")
-    public BigDecimal valor;
+    private BigDecimal valor;
 
-    public Integer parcelamento;
-    public Integer posicaoParcelamento;
+    private Integer parcelamento;
+    private Integer posicaoParcelamento;
 
     @NotNull(message = "Favor informar campo data vencimento")
     @Column(name = "data_vencimento")
-    public LocalDate dataVencimento;
+    private LocalDate dataVencimento;
 
     @NotNull(message = "Favor informar campo tipo divida")
     @Column(name = "tipo_divida") @Enumerated(EnumType.STRING)
-    public TipoDivida tipoDivida;
+    private TipoDivida tipoDivida;
 
     @Column(name = "status") @Enumerated(EnumType.STRING)
-    public StatusDivida status;
+    private StatusDivida status;
 
 
 }

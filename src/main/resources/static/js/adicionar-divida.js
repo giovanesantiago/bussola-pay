@@ -1,4 +1,5 @@
 // Elementos do DOM
+// TODO: remover html do js
 const btnVoltar = document.getElementById('btnVoltar');
 const btnCancelar = document.getElementById('btnCancelar');
 const formAdicionarDivida = document.getElementById('formAdicionarDivida');
@@ -230,14 +231,14 @@ btnSalvarItem?.addEventListener('click', () => {
   const valorStr = document.getElementById('itemValor').value.trim();
   
   if (!descricao || !valorStr) {
-    mostrarErroModal('Preencha todos os campos do item');
+    mostrarErroModal();
     return;
   }
   
   const valor = parseFloat(valorStr.replace(/\./g, '').replace(',', '.'));
   
   if (isNaN(valor) || valor <= 0) {
-    mostrarErroModal('Digite um valor válido');
+    mostrarErroModal();
     return;
   }
   
@@ -251,7 +252,7 @@ btnSalvarItem?.addEventListener('click', () => {
   if (formaPagamentoItem === 'parcelada') {
     const numeroParcelas = parseInt(itemNumeroParcelasInput.value);
     if (!numeroParcelas || numeroParcelas < 2) {
-      mostrarErroModal('Digite o número de parcelas (mínimo 2)');
+      mostrarErroModal();
       return;
     }
     item.numeroParcelas = numeroParcelas;
@@ -264,7 +265,7 @@ btnSalvarItem?.addEventListener('click', () => {
 });
 
 // Mostrar erro no modal
-function mostrarErroModal(mensagem) {
+function mostrarErroModal() {
   const itemDescricao = document.getElementById('itemDescricao');
   itemDescricao.style.borderColor = '#ff6b6b';
   itemDescricao.focus();
