@@ -31,13 +31,12 @@ public class DividaService {
         );
     }
 
-
-    public List<ResumoDiario> getResumosDiarios5Dias() {
+    public List<ResumoDiario> getResumosDiarios4Dias() {
         List<DividaDTO> dividas = dividaRepository.findDividaDTOByBetweenAndStatus(
-                LocalDate.now(), LocalDate.now().plusDays(5L), StatusDivida.PENDENTE.name()
+                LocalDate.now(), LocalDate.now().plusDays(4L), StatusDivida.PENDENTE.name(), clienteService.getClienteLogado().getId()
         );
 
 
-        return FactoryRelatorios.generateResumoPorDia(dividas , new RangeDate(LocalDate.now(), LocalDate.now().plusDays(5L)));
+        return FactoryRelatorios.generateResumoPorDia(dividas , new RangeDate(LocalDate.now(), LocalDate.now().plusDays(4L)));
     }
 }

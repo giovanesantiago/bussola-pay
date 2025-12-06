@@ -17,13 +17,15 @@ public class DividaDTO {
     private LocalDate dataVencimento;
     private BigDecimal valor;
     private String status;
+    private String tipo;
 
 
-    public DividaDTO(Number id, String descricao, Date dataVencimento, Number valor, String status) {
+    public DividaDTO(Number id, String descricao, Date dataVencimento, Number valor, String status, String tipo) {
         this.id = id.longValue();
         this.descricao = descricao;
         this.dataVencimento = dataVencimento.toLocalDate();
         this.valor = new BigDecimal(valor.toString());
         this.status = status;
+        this.tipo = tipo;
     }
 }

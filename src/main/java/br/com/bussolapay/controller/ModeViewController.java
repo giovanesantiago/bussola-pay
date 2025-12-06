@@ -2,6 +2,7 @@ package br.com.bussolapay.controller;
 
 import br.com.bussolapay.model.ClienteCreate;
 import br.com.bussolapay.model.DividaCreate;
+import br.com.bussolapay.model.RangeDateAndFiltros;
 import br.com.bussolapay.service.ClienteService;
 import br.com.bussolapay.service.DividaService;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +34,9 @@ public class ModeViewController {
 
         mv.addObject("data", Map.of(
                 "nomeUser", clienteService.getClienteDTOLogado().getNome(),
-                "resumoDiario", dividaService.getResumosDiarios5Dias()
+                "resumoDiario", dividaService.getResumosDiarios4Dias()
         ));
+        mv.addObject("range", new RangeDateAndFiltros());
 
         return mv;
     }

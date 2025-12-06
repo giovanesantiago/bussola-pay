@@ -2,7 +2,7 @@ package br.com.bussolapay.controller;
 
 import br.com.bussolapay.config.exceptions.DividasException;
 import br.com.bussolapay.model.DividaCreate;
-import br.com.bussolapay.service.ClienteService;
+import br.com.bussolapay.model.RangeDateAndFiltros;
 import br.com.bussolapay.service.DividaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -26,14 +25,11 @@ import java.util.Optional;
 public class DividaController {
 
     private final DividaService dividaService;
-    private final ClienteService clienteService;
+    private final ModeViewController modeViewController;
 
     @PostMapping() @SuppressWarnings(value = "XSSVulnerability")
     public ModelAndView newDivida(@ModelAttribute("divida") @Valid DividaCreate dividaCreate, BindingResult result){
         ModelAndView mv = new ModelAndView("dashboard");
-        mv.addObject("data", Map.of(
-                "nomeUsuario", clienteService.getClienteDTOLogado().getNome()
-        ));
 
         if(result.hasErrors()){ //TODO: verificar se esta exibindo retorno de erros no front
             List<String> erros =
@@ -57,6 +53,11 @@ public class DividaController {
                     .addObject("erros", List.of(usuarioException.getMessage()));
         }
 
-        return mv;
+        return modeViewController.viewDashboard();
+    }
+
+    @PostMapping("/filtrar")
+    public ModelAndView listar(@ModelAttribute("range") @Valid RangeDateAndFiltros range, BindingResult result){
+        return modeViewController.viewDashboard();
     }
 }
