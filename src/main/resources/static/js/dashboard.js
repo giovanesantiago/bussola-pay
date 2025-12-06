@@ -92,10 +92,6 @@ function mostrarDividas(diaIndex, dayLabel, dayDate) {
   dividas.forEach(divida => {
     const row = document.createElement('tr');
     row.setAttribute('data-id', divida.id);
-    row.onclick = function() {
-      // TODO: Navegar para detalhes da dívida
-      window.location.href = `/divida/${divida.id}`;
-    };
     
     // Determina o badge de status
     let statusBadge = ``;
