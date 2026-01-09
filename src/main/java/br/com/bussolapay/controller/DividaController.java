@@ -59,7 +59,7 @@ public class DividaController {
         return modeViewController.viewDashboard();
     }
 
-    @PostMapping("/filtrar")
+    @PostMapping("/filtrar") //TODO: Fazer Lista de filtrada por mes igual minha planilha no excel quando acionada opcao anual
     public ModelAndView listar(@ModelAttribute("range") @Valid RangeDateAndFiltros range){
         ModelAndView mv = new ModelAndView("dashboard");
 
@@ -71,4 +71,6 @@ public class DividaController {
 
         return mv;
     }
+
+
 }
